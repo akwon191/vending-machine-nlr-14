@@ -4,7 +4,7 @@ public abstract class Product {
     private String name;
     private double price;
     private int quantity;
-private String message = setMessage();
+    final String message = setMessage();
 
     public String getMessage() {
         return message;

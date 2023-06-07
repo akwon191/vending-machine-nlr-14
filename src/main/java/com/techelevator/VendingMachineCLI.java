@@ -1,10 +1,8 @@
 package com.techelevator;
 
-import com.techelevator.util.Candy;
-import com.techelevator.util.ConsoleUtility;
-import com.techelevator.util.Gum;
-import com.techelevator.util.Product;
+import com.techelevator.util.*;
 
+import java.io.File;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -20,8 +18,20 @@ public class VendingMachineCLI {
 	public void run() {
 
 		int choice = getChoice();
-		Product mnm = new Candy();
-		System.out.println(mnm.getMessage());
+		VendingMachineMenu vending = new VendingMachineMenu(new File("vendingmachine.csv"));
+		if (choice == 1) {
+			vending.displayMenu();
+		}
+		else if (choice == 2) {
+			PurchaseProcess purchaseProcess = new PurchaseProcess();
+			int i = purchaseProcess.printMenu(userInput);
+			if (i == 1) {
+				purchaseProcess.feedMoney(userInput);
+			}
+		}
+
+
+
 
 
 
