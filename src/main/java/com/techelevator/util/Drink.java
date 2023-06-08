@@ -1,5 +1,7 @@
 package com.techelevator.util;
 
+import java.math.BigDecimal;
+
 public class Drink extends Product{
     public Drink(){
         super();
@@ -8,7 +10,7 @@ public class Drink extends Product{
 
 
 
-    public Drink(String name, double price, int quantity) {
+    public Drink(String name, BigDecimal price, int quantity) {
         super(name, price, quantity);
     }
 

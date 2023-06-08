@@ -1,5 +1,7 @@
 package com.techelevator.util;
 
+import java.math.BigDecimal;
+
 public class Gum extends Product{
 
 
@@ -10,7 +12,7 @@ public class Gum extends Product{
 
 
 
-    public Gum(String name, double price, int quantity) {
+    public Gum(String name, BigDecimal price, int quantity) {
         super(name, price, quantity);
     }
 

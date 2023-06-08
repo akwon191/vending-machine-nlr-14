@@ -2,6 +2,7 @@ package com.techelevator.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,13 +19,13 @@ public class VendingMachineMenu {
                 String[] item = line.split("\\|");
                 if (item.length == 4) {
                     if (item[3].equals("Chip")) {
-                        inventory.put(item[0], new Chip(item[1], Double.parseDouble(item[2]), 5));
+                        inventory.put(item[0], new Chip(item[1],new BigDecimal(item[2]), 5));
                     } else if (item[3].equals("Candy")) {
-                        inventory.put(item[0], new Candy(item[1], Double.parseDouble(item[2]), 5));
+                        inventory.put(item[0], new Candy(item[1], new BigDecimal(item[2]), 5));
                     } else if (item[3].equals("Drink")) {
-                        inventory.put(item[0], new Drink(item[1], Double.parseDouble(item[2]), 5));
+                        inventory.put(item[0], new Drink(item[1], new BigDecimal(item[2]), 5));
                     } else if (item[3].equals("Gum")) {
-                        inventory.put(item[0], new Gum(item[1], Double.parseDouble(item[2]), 5));
+                        inventory.put(item[0], new Gum(item[1], new BigDecimal(item[2]), 5));
                     }
                 }
             }
@@ -42,6 +43,17 @@ public class VendingMachineMenu {
                 System.out.println(entry.getKey() + ": " + entry.getValue().getName() + ": " + entry.getValue().getPrice() + ": Sold Out");
 
             }
+        }
+    }
+
+    public Map<String, Product> getInventory() {
+        return inventory;
+    }
+    public void buyItem(String name){
+        Product currentItem = inventory.get(name);
+        if (currentItem.getQuantity()>0){
+        currentItem.setQuantity(currentItem.getQuantity()-1);
+
         }
     }
 }

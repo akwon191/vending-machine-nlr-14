@@ -1,5 +1,7 @@
 package com.techelevator.util;
 
+import java.math.BigDecimal;
+
 public class Chip extends Product{
     public Chip(){
         super();
@@ -8,7 +10,7 @@ public class Chip extends Product{
 
 
 
-    public Chip(String name, double price, int quantity) {
+    public Chip(String name, BigDecimal price, int quantity) {
         super(name, price, quantity);
     }
 }

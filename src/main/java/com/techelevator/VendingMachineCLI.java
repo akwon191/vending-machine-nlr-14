@@ -21,18 +21,21 @@ public class VendingMachineCLI {
 		VendingMachineMenu vending = new VendingMachineMenu(new File("vendingmachine.csv"));
 		if (choice == 1) {
 			vending.displayMenu();
+			System.out.println();
+			getChoice();
 		}
 		else if (choice == 2) {
 			PurchaseProcess purchaseProcess = new PurchaseProcess();
 			int i = purchaseProcess.printMenu(userInput);
-			if (i == 1) {
+
+			while (i == 1) {
 				purchaseProcess.feedMoney(userInput);
+				i = purchaseProcess.printMenu(userInput);
+			}
+			while (i == 2) {
+				purchaseProcess.purchaseMenu(vending, userInput);
 			}
 		}
-
-
-
-
 
 
 	}
@@ -54,7 +57,7 @@ public class VendingMachineCLI {
 			}
 			return choice;
 		} catch (NumberFormatException e){
-			System.out.println("Please input a number");
+			System.out.println("Please type a number");;
 		}
 		return 0;
 
