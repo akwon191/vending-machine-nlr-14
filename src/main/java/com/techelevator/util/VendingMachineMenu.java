@@ -15,6 +15,8 @@ public class VendingMachineMenu {
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
+
+
                 String line = scanner.nextLine();
                 String[] item = line.split("\\|");
                 if (item.length == 4) {
@@ -30,17 +32,32 @@ public class VendingMachineMenu {
                 }
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("\u001B[32m" + "Vending CSV Not Found");;
         }
     }
 
     public void displayMenu() {
         for (Map.Entry<String, Product> entry : inventory.entrySet()) {
+            String ansiRed = ConsoleUtility.ANSI_RED;
+            String ansiBlue = ConsoleUtility.ANSI_BLUE;
+            String ansiYellow = ConsoleUtility.ANSI_YELLOW;
+            String ansiMagenta = ConsoleUtility.ANSI_MAGENTA;
+            String a = "";
+            if (entry.getValue() instanceof Chip){
+                 a = ansiYellow;
+            } else if (entry.getValue() instanceof Gum) {
+                a= ansiMagenta;
+            } else if (entry.getValue() instanceof Drink) {
+                a= ansiBlue;
+            } else if (entry.getValue() instanceof Candy) {
+                a = ansiRed;
+            }
             if (entry.getValue().getQuantity() > 0) {
-                System.out.println(entry.getKey() + ": " + entry.getValue().getName() + ": " + entry.getValue().getPrice() + ": Available " + entry.getValue().getQuantity());
+
+                System.out.println(a + entry.getKey() + ": " + entry.getValue().getName() + ": " + entry.getValue().getPrice() + ": Available " + entry.getValue().getQuantity());
 
             } else {
-                System.out.println(entry.getKey() + ": " + entry.getValue().getName() + ": " + entry.getValue().getPrice() + ": Sold Out");
+                System.out.println(a + entry.getKey() + ": " + entry.getValue().getName() + ": " + entry.getValue().getPrice() + ": Sold Out");
 
             }
         }
