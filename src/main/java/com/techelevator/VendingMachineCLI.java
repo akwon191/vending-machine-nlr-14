@@ -19,22 +19,33 @@ public class VendingMachineCLI {
 
 		int choice = getChoice();
 		VendingMachineMenu vending = new VendingMachineMenu(new File("vendingmachine.csv"));
-		if (choice == 1) {
+		PurchaseProcess purchaseProcess = new PurchaseProcess();
+		while (choice == 1) {
 			vending.displayMenu();
 			System.out.println();
-			getChoice();
+			choice = getChoice();
 		}
-		else if (choice == 2) {
-			PurchaseProcess purchaseProcess = new PurchaseProcess();
+		while (choice == 2) {
 			int i = purchaseProcess.printMenu(userInput);
 
-			while (i == 1) {
+			if (i == 1) {
 				purchaseProcess.feedMoney(userInput);
 				i = purchaseProcess.printMenu(userInput);
 			}
-			while (i == 2) {
+			if (i == 2) {
 				purchaseProcess.purchaseMenu(vending, userInput);
+				i = purchaseProcess.printMenu(userInput);
 			}
+			if (i == 3) {
+				purchaseProcess.finishTransaction();
+				System.out.println();
+				choice = getChoice();
+			}
+
+		}
+		if (choice == 3) {
+			System.out.println("Thank you");
+
 		}
 
 

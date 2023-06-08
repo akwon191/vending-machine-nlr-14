@@ -1,11 +1,19 @@
 package com.techelevator.util;
 
+import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Scanner;
 
-public class PurchaseProcess {
+public class PurchaseProcess implements LogTransaction{
     private BigDecimal balance = BigDecimal.valueOf(0.0);
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+
+    private LocalDateTime localdate = LocalDateTime.now();
 
     public int printMenu(Scanner scanner) {
         System.out.println("Current Money Provided: $" + balance);
@@ -28,7 +36,8 @@ public class PurchaseProcess {
         }return choice;
 
     }catch (NumberFormatException e){
-            printMenu(scanner);
+            System.out.println("Please enter a valid number");
+            System.out.println();
         }
         return 0;
     }
@@ -73,6 +82,8 @@ public class PurchaseProcess {
                     vending.buyItem(product.toUpperCase());
                     balance = balance.subtract( name.getValue().getPrice());
                     System.out.println("Dispensing " + vending.getInventory().get(product).getName() + " " +  vending.getInventory().get(product).getMessage());
+                    log(localdate.format(formatter) + " " + vending.getInventory().get(product).getName() + " " + name.getKey() + " " + vending.getInventory().get(product).getPrice() + " " + balance);
+
                 } else if (product.equalsIgnoreCase(name.getKey()) && name.getValue().getPrice().compareTo( balance) > 0 && name.getValue().getQuantity() != 0) {
                     System.out.println("Insufficient funds");
 
@@ -83,6 +94,45 @@ public class PurchaseProcess {
             }
 
         System.out.println();
-        printMenu(scanner);
     }
+
+    public void finishTransaction() {
+        int q1;
+        int d1;
+        int n1;
+
+        BigDecimal change = balance;
+        BigDecimal quarters = change.divide(BigDecimal.valueOf(0.25), RoundingMode.HALF_DOWN);
+        q1 = quarters.intValue();
+        change = change.subtract(BigDecimal.valueOf(q1 * 0.25));
+
+        BigDecimal dimes = change.divide(BigDecimal.valueOf(0.10), RoundingMode.HALF_DOWN);
+        d1 = dimes.intValue();
+        change = change.subtract(BigDecimal.valueOf(d1 * 0.10));
+
+        BigDecimal nickels = change.divide(BigDecimal.valueOf(0.05), RoundingMode.HALF_DOWN);
+        n1 = nickels.intValue();
+        change = change.subtract(BigDecimal.valueOf(0.05));
+
+        balance = change;
+
+        System.out.println("Change returned: $ quarters: " + q1 + " dimes: " + d1 + " nickels: " + n1);
+
+
+    }
+
+
+    @Override
+    public void log(String message) {
+        File file = new File("log.txt");
+        boolean append = file.exists();
+
+            try (PrintWriter writer = new PrintWriter(new FileOutputStream(file, append))) {
+                writer.println(message);
+
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
 }
