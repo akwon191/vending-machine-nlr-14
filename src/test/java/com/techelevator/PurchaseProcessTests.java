@@ -15,7 +15,7 @@ public class PurchaseProcessTests {
         String input = "2";
         Scanner scanner = new Scanner(System.in);
 
-        BigDecimal choice = BigDecimal.valueOf(PurchaseProcess.printMenu(scanner));
+        BigDecimal choice = BigDecimal.valueOf(purchaseProcess.printMenu(scanner));
 
         Assert.assertEquals(2, choice);
     }
@@ -25,8 +25,8 @@ public class PurchaseProcessTests {
         String input = "5";
         Scanner scanner = new Scanner(System.in);
 
-        PurchaseProcess.feedMoney(scanner);
+        purchaseProcess.feedMoney(scanner);
 
-        Assert.assertEquals(new BigDecimal("5.00"), PurchaseProcess.getBalance());
+        Assert.assertEquals(new BigDecimal("5.00"), purchaseProcess.getBalance());
     }
 }

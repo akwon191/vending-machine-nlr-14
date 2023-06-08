@@ -67,6 +67,11 @@ public class PurchaseProcess{
 
 
     }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
     public void purchaseMenu(VendingMachineMenu vending, Scanner scanner) {
 
         vending.displayMenu();
