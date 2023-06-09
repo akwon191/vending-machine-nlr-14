@@ -29,4 +29,6 @@ public class PurchaseProcessTests {
 
         Assert.assertEquals(new BigDecimal("5.00"), purchaseProcess.getBalance());
     }
+
+
 }
