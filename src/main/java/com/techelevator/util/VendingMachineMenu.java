@@ -36,6 +36,10 @@ public class VendingMachineMenu {
         }
     }
 
+    public void setInventory(Map.Entry<String,Product> item) {
+        this.inventory.put(item.getKey(), item.getValue());
+    }
+
     public void displayMenu() {
         for (Map.Entry<String, Product> entry : inventory.entrySet()) {
             String ansiRed = ConsoleUtility.ANSI_RED;
@@ -54,10 +58,10 @@ public class VendingMachineMenu {
             }
             if (entry.getValue().getQuantity() > 0) {
 
-                System.out.println(a + entry.getKey() + ": " + entry.getValue().getName() + ": " + entry.getValue().getPrice() + ": Available " + entry.getValue().getQuantity());
+                System.out.println(a + entry.getKey() + ": " + entry.getValue().getName() + ": $" + entry.getValue().getPrice() + ": Available " + entry.getValue().getQuantity());
 
             } else {
-                System.out.println(a + entry.getKey() + ": " + entry.getValue().getName() + ": " + entry.getValue().getPrice() + ": Sold Out");
+                System.out.println(a + entry.getKey() + ": " + entry.getValue().getName() + ": $" + entry.getValue().getPrice() + ": Sold Out");
 
             }
         }

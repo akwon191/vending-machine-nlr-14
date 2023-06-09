@@ -26,7 +26,7 @@ public class ProductTests {
 
     @Test
     public void testGettersAndSetters() {
-        Product product = new Product();
+        Product product = new Gum();
         product.setName("Test Product");
         product.setPrice(new BigDecimal("9.99"));
         product.setQuantity(5);
