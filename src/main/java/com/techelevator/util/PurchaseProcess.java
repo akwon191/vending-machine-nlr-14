@@ -6,10 +6,11 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class PurchaseProcess{
-    private BigDecimal balance = BigDecimal.valueOf(0.0);
+    private BigDecimal balance = BigDecimal.valueOf(0.00);
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
 
@@ -22,8 +23,8 @@ public class PurchaseProcess{
 
 
         while (choice != 1 && choice != 2 && choice != 3) {
-            System.out.println("\u001B[32m" + "Current Money Provided: $" + balance);
-            System.out.println();
+            System.out.println("\u001B[32m" + "Current Money Provided: $" + balance + "\n");
+
             System.out.println("\u001B[31m"+ "(1) Feed Money");
             System.out.println("\u001B[32m" + "(2) Select Product");
             System.out.println("\u001B[34m" + "(3) Finish Transaction");
@@ -31,9 +32,9 @@ public class PurchaseProcess{
                 choice = Integer.parseInt(scanner.nextLine());
                 System.out.println();
             }
-            catch (NumberFormatException e){
-                System.out.println("\u001B[32m" + "Please enter a valid number");
-                System.out.println();
+            catch (NumberFormatException | NoSuchElementException e){
+                System.out.println("\u001B[32m" + "Please enter a valid number\n");
+
             }
         }return choice;
 
@@ -56,13 +57,13 @@ public class PurchaseProcess{
 
 
             } else {
-                System.out.println("\u001B[32m" + "Invalid amount. Please enter whole dollar amount");
-                System.out.println();
+                System.out.println("\u001B[32m" + "Invalid amount. Please enter whole dollar amount\n");
+
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("\u001B[32m" + "Invalid amount. Please enter whole dollar amount");
-            System.out.println();
+            System.out.println("\n\u001B[32m" + "Invalid amount. Please enter whole dollar amount\n");
+
         }
 
 
@@ -77,42 +78,45 @@ public class PurchaseProcess{
     }
 
     public void purchaseMenu(VendingMachineMenu vending, Scanner scanner) {
-
+        try{
         vending.displayMenu();
-        System.out.println();
-        System.out.println("\u001B[32m" + "Enter Product Location: ");
+
+        System.out.println("\n\u001B[32m" + "Enter Product Location: ");
         String product = scanner.nextLine();
+
         if (product.length() != 2) {
-            System.out.println("Invalid location " + "\u001B[31m" + product);
-            System.out.println();
+            System.out.println("Invalid location " + "\u001B[31m" + product + "\n");
+
             purchaseMenu(vending, scanner);
         } else {
             String[] products = product.split("");
             products[0] = products[0].toUpperCase();
             product = products[0] + products[1];
             if (!vending.getInventory().containsKey(product)) {
-                System.out.println("\u001B[32m" + "Invalid Location " + "\u001B[31m" + product);
-                System.out.println();
+                System.out.println("\u001B[32m" + "Invalid Location " + "\u001B[31m" + product + "\n");
+
                 purchaseMenu(vending, scanner);
             }
             for (Map.Entry<String, Product> name : vending.getInventory().entrySet()) {
                 if (product.equalsIgnoreCase(name.getKey()) && balance.compareTo(name.getValue().getPrice()) > 0 && name.getValue().getQuantity() != 0) {
                     vending.buyItem(product.toUpperCase());
                     balance = balance.subtract(name.getValue().getPrice());
-                    System.out.println("\u001B[32m" + "Dispensing " + vending.getInventory().get(product).getName() + " " + vending.getInventory().get(product).getMessage());
+                    System.out.println("\u001B[32m" + "Dispensing " + vending.getInventory().get(product).getName() + " " + vending.getInventory().get(product).getMessage() + "\n");
                     LocalDateTime localdate = LocalDateTime.now();
                     log(localdate.format(formatter) + " " + vending.getInventory().get(product).getName() + " " + name.getKey() + " $" + vending.getInventory().get(product).getPrice() + " $" + balance);
 
                 } else if (product.equalsIgnoreCase(name.getKey()) && name.getValue().getPrice().compareTo(balance) > 0 && name.getValue().getQuantity() != 0) {
-                    System.out.println("\u001B[32m" + "Insufficient funds");
+                    System.out.println("\u001B[32m" + "Insufficient funds\n");
 
 
                 } else if (product.equalsIgnoreCase(name.getKey()) && name.getValue().getQuantity() == 0) {
-                    System.out.println("\u001B[32m" + "Item is Sold Out");
+                    System.out.println("\u001B[32m" + "Item is Sold Out\n");
 
                 }
             }
+        }
 
+            }catch (NoSuchElementException e){
             System.out.println();
         }
     }
@@ -149,7 +153,7 @@ public class PurchaseProcess{
 
 
 
-    public void log(String message) {
+    private void log (String message) {
         File file = new File("log.txt");
         boolean append = file.exists();
 
@@ -157,7 +161,7 @@ public class PurchaseProcess{
                 writer.println(message);
 
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                System.out.println(e.getMessage());;
             }
         }
 

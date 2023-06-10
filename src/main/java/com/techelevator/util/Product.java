@@ -19,9 +19,9 @@ public abstract class Product {
             return "Glug Glug, Yum!";
         } else if (getClass().equals(Candy.class)) {
             return "Munch Munch, Yum!";
-        } else if (getClass().equals(Chip.class)) {
+        } else {
             return "Crunch Crunch, Yum!";
-        } else {return "Yummy Product";}
+        }
     }
 
     public Product(){}
