@@ -77,5 +77,8 @@ public class VendingMachineMenu {
 
         }
     }
+
+    public void run() {
+    }
 }
 
