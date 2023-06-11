@@ -73,8 +73,8 @@ public class VendingMachineCLI {
 			}
 			return choice;
 		} catch (NumberFormatException e){
-			System.out.println("\u001B[32m"+ "Please type a number");
-			System.out.println();
+			System.out.println("\u001B[32m"+ "Please type a number\n");
+
 			run();
 
 		}
